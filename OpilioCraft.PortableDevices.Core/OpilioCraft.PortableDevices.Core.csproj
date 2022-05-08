@@ -25,6 +25,7 @@
       <Lcid>0</Lcid>
       <Isolated>false</Isolated>
       <EmbedInteropTypes>False</EmbedInteropTypes>
+      <CopyLocal>True</CopyLocal>
     </COMReference>
     <COMReference Include="PortableDeviceTypesLib">
       <WrapperTool>tlbimp</WrapperTool>
@@ -34,6 +35,7 @@
       <Lcid>0</Lcid>
       <Isolated>false</Isolated>
       <EmbedInteropTypes>False</EmbedInteropTypes>
+      <CopyLocal>True</CopyLocal>
     </COMReference>
   </ItemGroup>
 
