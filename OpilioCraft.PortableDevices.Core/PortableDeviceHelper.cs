@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-using PortableDeviceApiLib;
+﻿using PortableDeviceApiLib;
 using IPortableDeviceValues = PortableDeviceApiLib.IPortableDeviceValues;
 
 namespace OpilioCraft.PortableDevices
@@ -12,12 +10,15 @@ namespace OpilioCraft.PortableDevices
             public PortableDeviceHelper(string _)
             {
                 RawDevice = new();
+
+                RawDevice.Content(out IPortableDeviceContent content);
+                DeviceContent = content;
+
+                DeviceContent.Properties(out IPortableDeviceProperties properties);
+                DeviceProperties = properties;
             }
 
             public PortableDeviceClass RawDevice { get; }
-
-            public IPortableDeviceContent DeviceContent { get; private set; }
-            public IPortableDeviceProperties DeviceProperties { get; private set; }
 
             public void Refresh()
             {
@@ -27,6 +28,9 @@ namespace OpilioCraft.PortableDevices
                 DeviceContent.Properties(out IPortableDeviceProperties properties);
                 DeviceProperties = properties;
             }
+
+            public IPortableDeviceContent DeviceContent { get; private set; }
+            public IPortableDeviceProperties DeviceProperties { get; private set; }
 
             // item specific methods
             public IPortableDeviceValues GetItemValues(string itemId)
@@ -38,7 +42,7 @@ namespace OpilioCraft.PortableDevices
             }
 
             // item factory
-            public TItem CreateItemFromId<TItem>(string itemId) where TItem : ContentItem
+            public T CreateItemFromId<T>(string itemId) where T : ContentItem
             {
                 ContentItem item;
                 var itemValues = GetItemValues(itemId);
@@ -49,7 +53,7 @@ namespace OpilioCraft.PortableDevices
 
                 // determine item type and create wrapper object
                 var typeProperty = PropertyKeys.WPD_OBJECT_CONTENT_TYPE;
-                itemValues.GetGuidValue(typeProperty, out System.Guid itemType);
+                itemValues.GetGuidValue(typeProperty, out Guid itemType);
 
                 if (itemType == LowLevelAPI.FunctionalType || itemType == LowLevelAPI.FolderType)
                 {
@@ -60,7 +64,7 @@ namespace OpilioCraft.PortableDevices
                     item = new File(this, itemId, name);
                 }
 
-                return item as TItem;
+                return (T) item; // will throw an exception on incompatible types
             }
 
             // container handling

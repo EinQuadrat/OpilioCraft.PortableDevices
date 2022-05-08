@@ -1,6 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 
 using IStream_ComType = System.Runtime.InteropServices.ComTypes.IStream;
 
@@ -88,11 +86,11 @@ namespace OpilioCraft.PortableDevices
             {
                 foreach (var part in pathToFolder.Split('/'))
                 {
-                    var item = folder.GetItemByName(part);
+                    var item = folder?.GetItemByName(part);
 
                     if (item is Folder)
                     {
-                        folder = folder.GetItemByName(part) as Folder;
+                        folder = folder?.GetItemByName(part) as Folder;
                     }
                     else
                     {
@@ -107,7 +105,7 @@ namespace OpilioCraft.PortableDevices
         // high-level device API
         public void DownloadFile(File file, string saveToPath)
         {
-            IStream_ComType sourceStream = null;
+            IStream_ComType? sourceStream = null;
 
             try
             {
@@ -126,11 +124,14 @@ namespace OpilioCraft.PortableDevices
                     var buffer = new byte[optimalTransferSize];
                     int bytesRead;
 
-                    do
+                    if (sourceStream != null)
                     {
-                        sourceStream.Read(buffer, (int)optimalTransferSize, new IntPtr(&bytesRead));
-                        if (bytesRead > 0) { targetStream.Write(buffer, 0, bytesRead); }
-                    } while (bytesRead > 0);
+                        do
+                        {
+                            sourceStream.Read(buffer, (int)optimalTransferSize, new IntPtr(&bytesRead));
+                            if (bytesRead > 0) { targetStream.Write(buffer, 0, bytesRead); }
+                        } while (bytesRead > 0);
+                    }
                 }
 
                 targetStream.Close();
@@ -154,7 +155,7 @@ namespace OpilioCraft.PortableDevices
 
         public void DeleteFile(File file)
         {
-            var objectIds = new PortableDevicePropVariantCollection() as PortableDeviceApiLib.IPortableDevicePropVariantCollection;
+            var objectIds = (PortableDeviceApiLib.IPortableDevicePropVariantCollection) new PortableDevicePropVariantCollection();
 
             PortableDeviceApiLib.tag_inner_PROPVARIANT propVariant = LowLevelAPI.StringToPropVariant(file.Id);
             objectIds.Add(propVariant);

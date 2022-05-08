@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace OpilioCraft.PortableDevices
+﻿namespace OpilioCraft.PortableDevices
 {
     public partial class PortableDevice
     {
@@ -24,8 +20,8 @@ namespace OpilioCraft.PortableDevices
             // methods
             public ContentItem GetItemByName(string name) => ChildItems.First(item => item.Name == name);
 
-            public IList<Folder> GetSubFolders() => ChildItems.Where(item => item is Folder).Select(item => item as Folder).ToList();
-            public IList<File> GetFiles() => ChildItems.Where(item => item is File).Select(item => item as File).ToList();
+            public IList<Folder> GetSubFolders() => ChildItems.Where(item => item is Folder).Select(item => (Folder) item).ToList();
+            public IList<File> GetFiles() => ChildItems.Where(item => item is File).Select(item => (File) item).ToList();
         }
     }
 }

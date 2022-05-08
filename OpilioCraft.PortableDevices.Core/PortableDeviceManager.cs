@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-
-using PortableDeviceApiLib;
+﻿using PortableDeviceApiLib;
 
 namespace OpilioCraft.PortableDevices
 {

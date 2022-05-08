@@ -29,7 +29,7 @@ namespace TestApp
                 Console.WriteLine();
 
                 Console.Write("Getting phone folder... ");
-                var phoneFolder = dev.GetFolder("Phone");
+                var phoneFolder = dev.GetFolder("Interner Speicher");
                 Console.WriteLine("OK");
 
                 Console.WriteLine();
@@ -40,7 +40,7 @@ namespace TestApp
                 Console.WriteLine();
 
                 Console.Write("Getting camera folder... ");
-                var cameraFolder = dev.GetFolder("Phone/DCIM/Camera");
+                var cameraFolder = dev.GetFolder("Interner Speicher/DCIM/Camera");
                 Console.WriteLine("OK");
 
                 Console.WriteLine();
