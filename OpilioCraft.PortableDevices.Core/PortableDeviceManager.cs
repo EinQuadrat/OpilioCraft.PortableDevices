@@ -12,20 +12,22 @@ namespace OpilioCraft.PortableDevices
             _deviceCache.Clear();
             _deviceManager.RefreshDeviceList();
 
-            // Determine how many WPD devices are connected
-            uint count = 1U; // according to API docs, it should work with 0U, but that did not show any results
-            _deviceManager.GetDevices(null, ref count);
-
-            // Retrieve found devices
-            if (count > 0)
+            unsafe
             {
-                var deviceIds = new string[count];
-                _deviceManager.GetDevices(ref deviceIds[0], ref count);
+                // Determine how many WPD devices are connected
+                uint count = 1U; // according to API docs, it should work with 0U, but that did not show any results
 
-                foreach (var deviceId in deviceIds)
+                // Retrieve found devices
+                if (count > 0)
                 {
-                    var device = new PortableDevice(deviceId);
-                    _deviceCache.Add(device.FriendlyName, device);
+                    var deviceIds = new string[count];
+                    _deviceManager.GetDevices(ref deviceIds[0], ref count);
+
+                    foreach (var deviceId in deviceIds)
+                    {
+                        var device = new PortableDevice(deviceId);
+                        _deviceCache.Add(device.FriendlyName, device);
+                    }
                 }
             }
         }

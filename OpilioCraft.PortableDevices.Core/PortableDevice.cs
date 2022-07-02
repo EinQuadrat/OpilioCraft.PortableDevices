@@ -43,7 +43,6 @@ namespace OpilioCraft.PortableDevices
                 if (!_isConnected)
                 {
                     _deviceHelper.RawDevice.Open(DeviceId, readOnly ? LowLevelAPI.RequestReadOnlyAccess : LowLevelAPI.RequestReadWriteAccess);
-                    _deviceHelper.Refresh();
                     _isConnected = true;
                 }
             }
@@ -138,8 +137,7 @@ namespace OpilioCraft.PortableDevices
             }
             catch (Exception exn)
             {
-                Console.Error.WriteLine($"[{nameof(PortableDevice)}] unexpected failure while transferring item to PC: {exn.Message}");
-                throw;
+                throw new PortableDeviceException($"[unexpected failure while transferring item to PC", exn);
             }
             finally
             {

@@ -9,28 +9,34 @@ namespace OpilioCraft.PortableDevices
         {
             public PortableDeviceHelper(string _)
             {
-                RawDevice = new();
+                PortableDeviceClass? portableDeviceClass = new();
 
-                RawDevice.Content(out IPortableDeviceContent content);
-                DeviceContent = content;
+                if (portableDeviceClass is null)
+                {
+                    throw new PortableDeviceException("cannot instantiate portable device class");
+                }
 
-                DeviceContent.Properties(out IPortableDeviceProperties properties);
-                DeviceProperties = properties;
+                RawDevice = portableDeviceClass;
             }
 
             public PortableDeviceClass RawDevice { get; }
 
-            public void Refresh()
-            {
-                RawDevice.Content(out IPortableDeviceContent content);
-                DeviceContent = content;
-
-                DeviceContent.Properties(out IPortableDeviceProperties properties);
-                DeviceProperties = properties;
+            public IPortableDeviceContent DeviceContent {
+                get
+                {
+                    RawDevice.Content(out IPortableDeviceContent content);
+                    return content;
+                }
             }
 
-            public IPortableDeviceContent DeviceContent { get; private set; }
-            public IPortableDeviceProperties DeviceProperties { get; private set; }
+            public IPortableDeviceProperties DeviceProperties
+            {
+                get
+                {
+                    DeviceContent.Properties(out IPortableDeviceProperties properties);
+                    return properties;
+                }
+            }
 
             // item specific methods
             public IPortableDeviceValues GetItemValues(string itemId)

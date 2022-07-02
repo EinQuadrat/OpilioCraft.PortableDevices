@@ -6,7 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>none</DebugType>
+    <DebugType>portable</DebugType>
     <Authors>Carsten Schäfer</Authors>
     <Description>Test application to check portable devices wrapper</Description>
     <Copyright>Copyright (c) 2022 by Carsten Schäfer</Copyright>
