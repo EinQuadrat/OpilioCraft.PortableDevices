@@ -2,16 +2,19 @@
 
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
+    <TargetFramework>net8.0-windows7.0</TargetFramework>
+    
     <PackageId>OpilioCraft.PortableDevices.Core</PackageId>
-    <Version>1.1.4</Version>
+    <Version>1.2.0</Version>
     <Authors>Carsten Schäfer</Authors>
     <Description>.NET wrapper for Windows Portable Devices API</Description>
-    <Copyright>Copyright (c) 2022 by Carsten Schäfer</Copyright>
+    <Copyright>Copyright (c) 2022-2023 by Carsten Schäfer</Copyright>
     <RepositoryUrl>https://github.com/EinQuadrat/OpilioCraft.PortableDevices.git</RepositoryUrl>
     <PackageTags>OpilioCraft;CSharp;WPD</PackageTags>
+
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+
     <PlatformTarget>AnyCPU</PlatformTarget>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <DebugType>portable</DebugType>

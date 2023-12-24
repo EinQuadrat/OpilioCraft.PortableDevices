@@ -1,11 +1,10 @@
-﻿using System;
-using OpilioCraft.PortableDevices;
+﻿using OpilioCraft.PortableDevices;
 
 namespace TestApp
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main(string[] _)
         {
             Console.WriteLine("Retrieve devices...");
             var devices = PortableDeviceManager.GetPortableDevices(refresh: true);
