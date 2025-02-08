@@ -9,13 +9,7 @@ namespace OpilioCraft.PortableDevices
         {
             public PortableDeviceHelper(string _)
             {
-                PortableDeviceClass? portableDeviceClass = new();
-
-                if (portableDeviceClass is null)
-                {
-                    throw new PortableDeviceException("cannot instantiate portable device class");
-                }
-
+                PortableDeviceClass portableDeviceClass = new PortableDeviceClass() ?? throw new PortableDeviceException("cannot instantiate portable device class");
                 RawDevice = portableDeviceClass;
             }
 
@@ -48,9 +42,8 @@ namespace OpilioCraft.PortableDevices
             }
 
             // item factory
-            public T CreateItemFromId<T>(string itemId) where T : ContentItem
+            public ContentItem CreateContentItemFromId(string itemId)
             {
-                ContentItem item;
                 var itemValues = GetItemValues(itemId);
 
                 // retrieve name for itemId
@@ -61,17 +54,16 @@ namespace OpilioCraft.PortableDevices
                 var typeProperty = PropertyKeys.WPD_OBJECT_CONTENT_TYPE;
                 itemValues.GetGuidValue(typeProperty, out Guid itemType);
 
-                if (itemType == LowLevelAPI.FunctionalType || itemType == LowLevelAPI.FolderType)
-                {
-                    item = new Folder(this, itemId, name);
-                }
-                else
-                {
-                    item = new File(this, itemId, name);
-                }
-
-                return (T) item; // will throw an exception on incompatible types
+                return
+                    (itemType == LowLevelAPI.FunctionalType || itemType == LowLevelAPI.FolderType)
+                    ? new Folder(this, itemId, name)
+                    : new File(this, itemId, name);
             }
+
+            public Folder CreateFolderItemFromId(string itemId) =>
+                    CreateContentItemFromId(itemId) is Folder folderItem
+                    ? folderItem
+                    : throw new ArgumentException($"{itemId} is not an existing folder");
 
             // container handling
             public IList<string> EnumerateContainer(string containerId)

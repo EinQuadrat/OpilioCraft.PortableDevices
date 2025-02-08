@@ -9,7 +9,7 @@
             public Folder(PortableDeviceHelper deviceHelper, string folderId, string folderName) : base(folderId, folderName)
             {
                 _childItemIds = deviceHelper.EnumerateContainer(folderId);
-                IList<ContentItem> contentFetcher() => _childItemIds.Select((itemId) => deviceHelper.CreateItemFromId<ContentItem>(itemId)).ToList();
+                IList<ContentItem> contentFetcher() => _childItemIds.Select(deviceHelper.CreateContentItemFromId).ToList();
                 _childItems = new Lazy<IList<ContentItem>>(contentFetcher);
             }
 

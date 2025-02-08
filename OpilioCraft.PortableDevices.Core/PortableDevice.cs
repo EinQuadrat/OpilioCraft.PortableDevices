@@ -73,32 +73,27 @@ namespace OpilioCraft.PortableDevices
         // NOTE: the following method expects the device to be connected! it is ensured via DeviceInfo
 
         // device root
-        public Folder GetRootFolder() => DeviceHelper.CreateItemFromId<Folder>("DEVICE");
+        public Folder GetRootFolder() => DeviceHelper.CreateFolderItemFromId("DEVICE");
 
         // device folder
         public Folder GetFolder(string pathToFolder)
         {
-            var folder = GetRootFolder();
-
-            // subfolder requested?
-            if (pathToFolder.Length > 0)
+            static Folder treeWalker(Folder folder, string[] path)
             {
-                foreach (var part in pathToFolder.Split('/'))
+                if (path.Length == 0)
                 {
-                    var item = folder?.GetItemByName(part);
+                    return folder;
+                }
+                else
+                {
+                    Folder subfolder = folder.GetItemByName(path[0]) as Folder
+                    ?? throw new InvalidOperationException($"[{nameof(PortableDevice)}] content item is not a folder: {path[0]}");
 
-                    if (item is Folder)
-                    {
-                        folder = folder?.GetItemByName(part) as Folder;
-                    }
-                    else
-                    {
-                        throw new InvalidOperationException($"[{nameof(PortableDevice)}] content item is not a folder: {part}");
-                    }
+                    return path.Length == 1 ? subfolder : treeWalker(subfolder, path[1..]);
                 }
             }
 
-            return folder;
+            return treeWalker(GetRootFolder(), pathToFolder.Split('/'));
         }
 
         // high-level device API

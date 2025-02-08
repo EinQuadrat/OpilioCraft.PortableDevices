@@ -18,11 +18,11 @@ namespace OpilioCraft.PortableDevices
                 uint count = 1U; // according to API docs, it should work with 0U, but that did not show any results
 
                 // Retrieve found devices
+                var deviceIds = new string[count];
+                _deviceManager.GetDevices(ref deviceIds[0], ref count);
+
                 if (count > 0)
                 {
-                    var deviceIds = new string[count];
-                    _deviceManager.GetDevices(ref deviceIds[0], ref count);
-
                     foreach (var deviceId in deviceIds)
                     {
                         var device = new PortableDevice(deviceId);
@@ -40,7 +40,7 @@ namespace OpilioCraft.PortableDevices
                 RefreshDeviceList();
             }
 
-            return _deviceCache.Values;
+            return _deviceCache.Count > 0 ? _deviceCache.Values : [];
         }
 
         public static bool Exists(string friendlyName) => _deviceCache.ContainsKey(friendlyName);
