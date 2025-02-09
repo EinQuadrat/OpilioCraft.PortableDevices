@@ -9,6 +9,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpilioCraft.PortableDevices
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpilioCraft.PortableDevices.TestApp", "OpilioCraft.PortableDevices.TestApp\OpilioCraft.PortableDevices.TestApp.csproj", "{9969A883-77B7-4321-881A-427C1714E28F}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{41AC071C-411B-4BF2-B372-427548CF1E83}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{21EB8615-C8AF-4402-B1CE-62B7D48EAE54}"
+	ProjectSection(SolutionItems) = preProject
+		build-and-publish.yaml = build-and-publish.yaml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,6 +37,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{21EB8615-C8AF-4402-B1CE-62B7D48EAE54} = {41AC071C-411B-4BF2-B372-427548CF1E83}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {22378535-6573-4871-B413-3F7A3BA01C08}
