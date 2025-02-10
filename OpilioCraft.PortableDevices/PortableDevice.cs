@@ -4,6 +4,7 @@ using IStream_ComType = System.Runtime.InteropServices.ComTypes.IStream;
 
 using PortableDeviceApiLib;
 using PortableDeviceTypesLib;
+using System.Diagnostics.CodeAnalysis;
 
 namespace OpilioCraft.PortableDevices
 {
@@ -75,6 +76,20 @@ namespace OpilioCraft.PortableDevices
         // device root
         public Folder GetRootFolder() => DeviceHelper.CreateFolderItemFromId("DEVICE");
 
+        public bool TryGetRootFolder([MaybeNullWhen(returnValue: false)] out Folder rootFolder)
+        {
+            try
+            {
+                rootFolder = GetRootFolder();
+            }
+            catch (Exception)
+            {
+                rootFolder = null;
+            }
+
+            return rootFolder is not null;
+        }
+
         // device folder
         public Folder GetFolder(string pathToFolder)
         {
@@ -94,6 +109,20 @@ namespace OpilioCraft.PortableDevices
             }
 
             return treeWalker(GetRootFolder(), pathToFolder.Split('/'));
+        }
+
+        public bool TryGetFolder(string pathToFolder, [MaybeNullWhen(returnValue: false)] out Folder folder)
+        {
+            try
+            {
+                folder = GetFolder(pathToFolder);
+            }
+            catch (Exception)
+            {
+                folder = null;
+            }
+
+            return folder is not null;
         }
 
         // high-level device API

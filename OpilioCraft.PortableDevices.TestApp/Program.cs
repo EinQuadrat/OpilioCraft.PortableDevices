@@ -1,6 +1,4 @@
-﻿using OpilioCraft.PortableDevices;
-
-namespace TestApp
+﻿namespace OpilioCraft.PortableDevices.TestApp
 {
     class Program
     {
@@ -16,40 +14,46 @@ namespace TestApp
                 Console.WriteLine($"Friendly Name = {dev.FriendlyName}");
                 Console.WriteLine();
 
-                Console.Write("Getting device root... ");
-                var rootFolder = dev.GetRootFolder();
-                Console.WriteLine("OK");
+                Console.Write("Trying to get device root... ");
 
-                Console.WriteLine();
-                foreach (var item in rootFolder.GetSubFolders())
+                if (dev.TryGetRootFolder(out var rootFolder))
                 {
-                    Console.WriteLine($"{item.Name}");
-                }
-                Console.WriteLine();
-
-                Console.Write("Getting phone folder... ");
-                var phoneFolder = dev.GetFolder("Interner Speicher");
-                Console.WriteLine("OK");
-
-                Console.WriteLine();
-                foreach (var item in phoneFolder.ChildItems)
-                {
-                    Console.WriteLine($"{item.Name}");
-                }
-                Console.WriteLine();
-
-                Console.Write("Getting camera folder... ");
-                var cameraFolder = dev.GetFolder("Interner Speicher/DCIM/Camera");
-                Console.WriteLine("OK");
-
-                Console.WriteLine();
-                foreach (var file in cameraFolder.GetFiles())
-                {
-                    Console.Write($"Transferring {file.Name} ");
-                    dev.DownloadFile(file, "C:/opt/Testing");
                     Console.WriteLine("OK");
+
+                    foreach (var item in rootFolder.GetSubFolders())
+                    {
+                        Console.WriteLine($"{item.Name}");
+                    }
+                    Console.WriteLine();
+
+                    Console.Write("Trying to get phone folder... ");
+                    if (dev.TryGetFolder("Interner Speicher", out var phoneFolder))
+                    {
+                        Console.WriteLine("OK");
+
+                        foreach (var item in phoneFolder.ChildItems)
+                        {
+                            Console.WriteLine($"{item.Name}");
+                        }
+
+                        Console.Write("\nGetting camera folder... ");
+                        var cameraFolder = dev.GetFolder("Interner Speicher/DCIM/Camera");
+                        Console.WriteLine("OK\n");
+
+                        foreach (var file in cameraFolder.GetFiles())
+                        {
+                            Console.Write($"Transferring {file.Name} ");
+                            dev.DownloadFile(file, "C:/opt/Testing");
+                            Console.WriteLine("OK");
+                        }
+                        Console.WriteLine();
+                    }
+                    Console.WriteLine("No phone folder found.");
                 }
-                Console.WriteLine();
+                else
+                {
+                    Console.WriteLine("Oops... Found device is not compatible.");
+                }
 
                 Console.Write("Disconnecting from device... ");
                 dev.Disconnect();

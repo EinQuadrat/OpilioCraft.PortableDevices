@@ -57,7 +57,7 @@ namespace OpilioCraft.PortableDevices
                 return
                     (itemType == LowLevelAPI.FunctionalType || itemType == LowLevelAPI.FolderType)
                     ? new Folder(this, itemId, name)
-                    : new File(this, itemId, name);
+                    : new File(itemId, name);
             }
 
             public Folder CreateFolderItemFromId(string itemId) =>
