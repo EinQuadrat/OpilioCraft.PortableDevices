@@ -22,7 +22,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\OpilioCraft.PortableDevices.Core\OpilioCraft.PortableDevices.csproj" />
+    <ProjectReference Include="..\OpilioCraft.PortableDevices\OpilioCraft.PortableDevices.csproj" />
   </ItemGroup>
 
 </Project>

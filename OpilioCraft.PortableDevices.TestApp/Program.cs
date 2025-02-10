@@ -1,4 +1,5 @@
-﻿namespace OpilioCraft.PortableDevices.TestApp
+﻿using OpilioCraft.PortableDevices;
+namespace OpilioCraft.PortableDevices.TestApp
 {
     class Program
     {
