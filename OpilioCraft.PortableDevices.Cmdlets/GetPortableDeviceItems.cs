@@ -1,9 +1,10 @@
 ﻿using System.Management.Automation;
+using Windows.Devices.Portable;
 
 namespace OpilioCraft.PortableDevices.Cmdlets
 {
     [Cmdlet(VerbsCommon.Get, "PortableDeviceItems")]
-    [OutputType(typeof(PortableDevice.ContentItem))]
+    [OutputType(typeof(StorageDevice))]
     public class GetPortableDeviceItems : PSCmdlet {
         // params
         [Parameter(Position = 0, Mandatory = true)]
@@ -23,19 +24,25 @@ namespace OpilioCraft.PortableDevices.Cmdlets
                 // lookup device
                 var device = PortableDeviceManager.GetDeviceByName(Device, refresh: Refresh.ToBool());
 
-                // navigate to folder
-                var folder = device.GetFolder(Path);
-
-                // enumerate content
-                foreach (var item in folder.ChildItems)
+                if (device is not null)
                 {
-                    WriteObject(sendToPipeline: item);
-                }
+                    var rootFolder = StorageDevice.FromId(device.Id);
 
-                // free resources
-                device.Disconnect();
+                    // navigate to folder
+                    var folder = rootFolder.GetFolder(Path);
+
+                    // enumerate content
+                    foreach (var item in folder.ChildItems)
+                    {
+                        WriteObject(sendToPipeline: item);
+                    }
+                }
+                else
+                {
+                    throw new Exception($"Device '{Device}' not found.");
+                }
             }
-            catch (System.Exception exn)
+            catch (Exception exn)
             {
                 WriteError(errorRecord: new ErrorRecord(exn, null, ErrorCategory.DeviceError, this));
             }
