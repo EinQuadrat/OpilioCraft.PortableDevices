@@ -11,7 +11,7 @@ namespace OpilioCraft.PortableDevices
     public partial class PortableDevice
     {
         // used for thread safety
-        private readonly object syncLock = new();
+        private readonly Lock syncLock = new();
 
         // device access handler
         private readonly PortableDeviceHelper _deviceHelper;
@@ -39,7 +39,8 @@ namespace OpilioCraft.PortableDevices
         public void Connect(bool readOnly = false)
         {
             // prevent multiple concurrent connect request
-            lock (syncLock)
+            syncLock.Enter();
+            try
             {
                 if (!_isConnected)
                 {
@@ -47,17 +48,26 @@ namespace OpilioCraft.PortableDevices
                     _isConnected = true;
                 }
             }
+            finally
+            {
+                syncLock.Exit();
+            }
         }
 
         public void Disconnect()
         {
-            lock (syncLock)
+            syncLock.Enter();
+            try
             {
                 if (_isConnected)
                 {
                     _deviceHelper.RawDevice.Close();
                     _isConnected = false;
                 }
+            }
+            finally
+            {
+                syncLock.Exit();
             }
         }
 
