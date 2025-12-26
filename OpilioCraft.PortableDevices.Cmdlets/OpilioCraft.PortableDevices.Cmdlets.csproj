@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFramework>net10.0-windows10.0.19041.0</TargetFramework>
+    <TargetFramework>net10.0-windows10.0.26100.0</TargetFramework>
 
     <PackageId>OpilioCraft.PortableDevices.Cmdlets</PackageId>
     <Version>1.1.0</Version>
@@ -22,7 +22,7 @@
     <EnableNETAnalyzers>True</EnableNETAnalyzers>
     <AnalysisLevel>latest</AnalysisLevel>
     <ProduceReferenceAssembly>False</ProduceReferenceAssembly>
-    <SupportedOSPlatformVersion>10.0.19041.0</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion>10.0.26100.0</SupportedOSPlatformVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -36,11 +36,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="PowerShellStandard.Library" Version="5.1.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\OpilioCraft.PortableDevices\OpilioCraft.PortableDevices.csproj" />
+    <PackageReference Include="System.Management.Automation" Version="7.5.4" />
   </ItemGroup>
 
 </Project>
